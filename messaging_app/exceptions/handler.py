@@ -6,10 +6,11 @@ from rest_framework import status
 from accounts.signals import get_client_ip, get_user_agent
 from exceptions.serializers import ExceptionSerializer
 
+# Customized Exception Handler
 def custom_exception_handler(exc, context):
 
     try:
-        # Init
+        # Initials
         request = context['request']
         response = exception_handler(exc, context)
         status_code = response.status_code
@@ -36,14 +37,17 @@ def custom_exception_handler(exc, context):
         data['status_code'] = status_code
         data['error_codes'] = error_codes
     
-        # Save exception
+        # Serialize and validate exception data
         serializer = ExceptionSerializer(data=data)
         serializer.is_valid(raise_exception=True)
+
+        # Save serialized data
         serializer.save()
 
         # Return response
         return response
 
+    # Return timed out error for DB connection failures 
     except:
         return Response('The server timed out.',
             status=status.HTTP_408_REQUEST_TIMEOUT)

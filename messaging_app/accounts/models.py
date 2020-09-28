@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+# Blocking Model
 class Block(models.Model):
     prevented = models.ForeignKey(User, related_name='prevented_blocks', on_delete=models.CASCADE)
     blocked = models.ForeignKey(User, related_name='blocked_blocks', on_delete=models.CASCADE)
@@ -9,6 +10,7 @@ class Block(models.Model):
     class Meta:
         unique_together = ('prevented' , 'blocked',)
 
+# Login Activity Model
 class LoginActivity(models.Model):
     SUCCESS = 'S'
     FAILED = 'F'

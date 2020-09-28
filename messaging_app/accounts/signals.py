@@ -25,6 +25,7 @@ def get_client_ip(request):
 @receiver(user_login_failed)
 def log_user_logged_in_failed(signal, sender, **kwargs):
     try:
+        # Set activiy data
         data = {}
         request = kwargs.get('request')
         data['login_IP'] = get_client_ip(request)
@@ -32,7 +33,10 @@ def log_user_logged_in_failed(signal, sender, **kwargs):
         data['status'] = LoginActivity.FAILED
         data['login_username'] = request.data.get('username','<unknown>')
 
+        # Serialize activity data
         serializer = LoginActivitySerializer(data=data)
+        
+        # Save serialized data
         if serializer.is_valid():
             serializer.save()
     except:
@@ -42,13 +46,17 @@ def log_user_logged_in_failed(signal, sender, **kwargs):
 @receiver(user_logged_in)
 def log_user_logged_in_success(sender, user, request, **kwargs):
     try:
+        # Set activity data
         data = {}
         data['login_IP'] = get_client_ip(request)
         data['user_agent'] = get_user_agent(request)
         data['login_username'] = user.username
         data['status'] = LoginActivity.SUCCESS
 
+        # Serialize activity data
         serializer = LoginActivitySerializer(data=data)
+        
+        # Save serialized data
         if serializer.is_valid():
             serializer.save()
 

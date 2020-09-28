@@ -1,6 +1,6 @@
 # Requirements
 from rest_framework import serializers
-from django.contrib.auth import authenticate, user_logged_in, user_login_failed
+from django.contrib.auth import authenticate, user_logged_in
 from django.core.exceptions import ObjectDoesNotExist
 
 # Models
