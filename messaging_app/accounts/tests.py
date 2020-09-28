@@ -47,14 +47,10 @@ class RegisterTests(APITestCase):
         """
         response = self.client.post(Paths.REGISTER)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        response = self.client.post(Paths.REGISTER, {'username' : 'test'})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        response = self.client.post(Paths.REGISTER, {'password' : '123'})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         users = User.objects.all()
         self.assertEqual(users.count(), 0)
         exceptions = ExceptionModel.objects.all()
-        self.assertEqual(exceptions.count(), 3)
+        self.assertEqual(exceptions.count(), 1)
 
 
 class LoginTests(APITestCase):       
@@ -71,7 +67,7 @@ class LoginTests(APITestCase):
 
     def test_login_invalid_data(self):
         """
-        Login Tests with Invalid Data
+        Login Tests with Invalid Credential
         """
         response = self.client.post(Paths.LOGIN, Constants.CREDENTIALS)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -86,12 +82,8 @@ class LoginTests(APITestCase):
         """
         response = self.client.post(Paths.LOGIN)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        response = self.client.post(Paths.LOGIN, {'username' : 'test'})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        response = self.client.post(Paths.LOGIN, {'password' : '123'})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         exceptions = ExceptionModel.objects.all()
-        self.assertEqual(exceptions.count(), 3)
+        self.assertEqual(exceptions.count(), 1)
 
 
 class BlockTests(APITestCase):
@@ -113,32 +105,50 @@ class BlockTests(APITestCase):
     
     def test_post_block(self):
         """
-        Successful POT Block Test
+        Successful POST Block Test
         """
         response = self.client.post(Paths.BLOCK, {'blocked' : 'blocked_user'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         blocks = Block.objects.filter(prevented=self.prevented, blocked=self.blocked)
         self.assertEqual(blocks.count(),1)
 
-    def test_post_block_invalid_data(self):
+    def test_post_block_client_data(self):
         """
-        POT Block Test with Invalid Blocked Field
+        POST Block Test with client Blocked Field
         """
         response = self.client.post(Paths.BLOCK, {'blocked' : 'prevented_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        blocks = Block.objects.all()
+        self.assertEqual(blocks.count(),0)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+    
+    def test_post_block_invalid_data(self):
+        """
+        POST Block Test with Invalid Blocked Field
+        """
         response = self.client.post(Paths.BLOCK, {'blocked' : 'not_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        blocks = Block.objects.all()
+        self.assertEqual(blocks.count(),0)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+    
+    def test_post_block_dublicated_data(self):
+        """
+        POST Block Test with dublicated Blocked Field
+        """
         Block.objects.create(prevented=self.prevented, blocked=self.blocked)
         response = self.client.post(Paths.BLOCK, {'blocked' : 'blocked_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         blocks = Block.objects.all()
         self.assertEqual(blocks.count(),1)
         exceptions = ExceptionModel.objects.all()
-        self.assertEqual(exceptions.count(), 3)
+        self.assertEqual(exceptions.count(), 1)
 
     def test_post_block_missing_data(self):
         """
-        POT Block Test with Invalid Blocked Field
+        POST Block Test with Missing Blocked Field
         """
         response = self.client.post(Paths.BLOCK)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -149,7 +159,7 @@ class BlockTests(APITestCase):
 
     def test_delete_block(self):
         """
-        Successful POT Block Test
+        Successful Delete Block Test
         """
         Block.objects.create(prevented=self.prevented, blocked=self.blocked)
         response = self.client.delete(Paths.BLOCK, {'blocked' : 'blocked_user'})
@@ -157,20 +167,36 @@ class BlockTests(APITestCase):
         blocks = Block.objects.all()
         self.assertEqual(blocks.count(),0)
 
-    def test_delete_block_invalid_data(self):
+    def test_delete_not_existing(self):
         """
-        POT Block Test with Invalid Blocked Field
+        Delete Not existing Block Test
+        """
+        response = self.client.delete(Paths.BLOCK, {'blocked' : 'blocked_user'})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
+    def test_delete_block_client_data(self):
+        """
+        Delete Block Test with client Blocked Field
         """
         response = self.client.delete(Paths.BLOCK, {'blocked' : 'prevented_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+    
+    def test_delete_block_invalid_data(self):
+        """
+        Delete Block Test with Invalid Blocked Field
+        """
         response = self.client.delete(Paths.BLOCK, {'blocked' : 'not_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         exceptions = ExceptionModel.objects.all()
-        self.assertEqual(exceptions.count(), 2)
+        self.assertEqual(exceptions.count(), 1)
 
     def test_delete_block_missing_data(self):
         """
-        POT Block Test with Invalid Blocked Field
+        Delete Block Test with Missing Blocked Field
         """
         response = self.client.delete(Paths.BLOCK)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -203,10 +229,7 @@ class PermissionTests(APITestCase):
         GET Not Authenticated User Test
         """
         response = self.client.get(Paths.USER)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        response = self.client.get(Paths.BLOCK)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)        
 
     def test_get_login_activities(self):
         """

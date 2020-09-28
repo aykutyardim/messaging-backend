@@ -668,3 +668,455 @@ Content-Type: application/json
     "detail": "You do not have permission to perform this action."
 }
 ```
+# Test Cases
+---
+## Account
+> messaging-backend/messaging_app/accounts/test.py
+
+
+###### Register Tests
+
+
+```
+Successful Registration Test
+```
+
+
+
+
+
+
+```
+Registration Tests with Invalid Duplicated Data
+```
+
+
+
+
+
+
+
+
+
+```
+Registration Test with Missing Data 
+```
+
+
+
+
+
+
+
+
+###### Login Tests       
+
+
+```
+Successful Login Tests
+```
+
+
+
+
+
+
+
+```
+Login Tests with Invalid Credential
+```
+
+
+
+
+
+
+
+
+```
+Login Tests with Missing Data
+```
+
+
+
+
+
+
+###### Block Tests
+
+
+```
+Create user objects for Blocking tests
+```
+
+
+
+
+
+```
+Successful GET Block List Test
+```
+
+
+
+
+```
+Successful POST Block Test
+```
+
+
+
+
+
+
+```
+POST Block Test with client Blocked Field
+```
+
+
+
+
+
+
+
+
+```
+POST Block Test with Invalid Blocked Field
+```
+
+
+
+
+
+
+
+
+```
+POST Block Test with dublicated Blocked Field
+```
+
+
+
+
+
+
+
+
+
+```
+POST Block Test with Missing Blocked Field
+```
+
+
+
+
+
+
+
+
+```
+Successful Delete Block Test
+```
+
+
+
+
+
+
+
+```
+Delete Not existing Block Test
+```
+
+
+
+
+
+
+```
+Delete Block Test with client Blocked Field
+```
+
+
+
+
+
+
+```
+Delete Block Test with Invalid Blocked Field
+```
+
+
+
+
+
+
+```
+Delete Block Test with Missing Blocked Field
+```
+
+
+
+
+
+
+###### User Tests
+
+
+```
+Create user objects for User tests
+```
+
+
+
+
+```
+Successful GET Authenticated User Test
+```
+
+
+
+
+
+###### Permission Tests
+
+
+```
+GET Not Authenticated User Test
+```
+
+
+
+
+```
+Forbidden GET Login Activities List Test (only admin users)
+```
+
+## Message
+> messaging-backend/messaging_app/message/test.py
+
+
+
+###### Message Tests
+
+
+```
+Create user object for Sent Messages tests
+```
+
+
+
+
+
+```
+Successful GET Messages Test
+```
+
+
+
+
+```
+Successful POST Message Response Test
+```
+
+
+
+
+```
+POST Message Test with Blank Data
+```
+
+
+
+
+
+
+
+
+```
+POST Message Test with Invalid Data
+```
+
+
+
+
+
+
+
+
+```
+POST Message Test with Client Data
+```
+
+
+
+
+
+
+
+
+```
+POST Message Test with Missing Data 
+```
+
+
+
+
+
+
+
+
+###### SentMessages Tests
+
+
+```
+Create user object for Sent Messages tests
+```
+
+
+
+
+```
+Successful GET Sent Message List Test
+```
+
+
+
+###### ReceivedMessages Tests
+
+
+```
+Create user object for Received Messages tests
+```
+
+
+
+
+```
+Successful GET Received Message List Test
+```
+
+
+
+###### Chat Tests
+
+
+```
+Create user objects for Chat Messages Tests
+```
+
+
+
+
+
+```
+Successful GET Chat Messages
+```
+
+
+
+
+```
+GET Chat Messages with Invalid Query String
+```
+
+
+
+
+
+
+```
+GET Chat Messages with Missing Query String
+```
+
+
+
+
+
+###### DailyMessages Tests
+
+
+```
+Create user objects for Daily Messages Tests
+```
+
+
+
+
+```
+Successful GET Daily Messages
+``` 
+
+
+
+
+```
+GET Daily Messages with Invalid Query Date String
+```
+
+
+
+
+
+
+```
+GET Daily Messages with Missing Query Date String
+```
+
+
+
+
+
+###### Permission Tests
+
+
+```
+GET Not Authenticated User Messages Test
+```
+
+
+
+
+
+
+```
+GET Not Authenticated User received Messages Test
+``` 
+
+
+
+
+
+
+```
+GET Not Authenticated User Sent Messages Test
+``` 
+
+
+
+
+
+
+```
+GET Not Authenticated User chat Messages Test
+``` 
+
+
+
+
+
+
+```
+GET Not Authenticated User daily Messages Test
+``` 
+## Message
+> messaging-backend/messaging_app/message/test.py
+
+
+
+###### Permission Tests
+
+```
+Forbidden GET Expception List Test (only admin users)
+```
+

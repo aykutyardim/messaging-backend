@@ -39,20 +39,38 @@ class MessageTests(APITestCase):
         messages = Message.objects.filter()
         self.assertEqual(messages.count(), 1)
         
+    def test_post_message_blank_data(self):
+        """
+        POST Message Test with Blank Data
+        """
+        response = self.client.post(Paths.MESSAGE, {'target' : ''})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST) 
+        messages = Message.objects.all()
+        self.assertEqual(messages.count(), 0)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
     def test_post_message_invalid_data(self):
         """
         POST Message Test with Invalid Data
         """
-        response = self.client.post(Paths.MESSAGE, {'target' : ''})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)       
         response = self.client.post(Paths.MESSAGE, {'target' : 'not_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        messages = Message.objects.all()
+        self.assertEqual(messages.count(), 0)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
+    def test_post_message_client_data(self):
+        """
+        POST Message Test with Client Data
+        """
         response = self.client.post(Paths.MESSAGE, {'target' : 'author_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         messages = Message.objects.all()
         self.assertEqual(messages.count(), 0)
         exceptions = ExceptionModel.objects.all()
-        self.assertEqual(exceptions.count(), 3)
+        self.assertEqual(exceptions.count(), 1)
 
     def test_post_message_missing_data(self):
         """
@@ -124,6 +142,14 @@ class ChatTests(APITestCase):
         exceptions = ExceptionModel.objects.all()
         self.assertEqual(exceptions.count(), 1)
 
+    def test_get_chat_messages_missing_data(self):
+        """
+        GET Chat Messages with Missing Query String
+        """
+        response = self.client.get(Paths.CHAT_MESSAGE)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
 
 class DailyMessagesTests(APITestCase):
     
@@ -150,21 +176,58 @@ class DailyMessagesTests(APITestCase):
         exceptions = ExceptionModel.objects.all()
         self.assertEqual(exceptions.count(), 1)
 
+    def test_get_daily_messages_missing_data(self):
+        """
+        GET Daily Messages with Missing Query Date String
+        """
+        response = self.client.get(Paths.DAILY_MESSAGE)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
 class PermissionTests(APITestCase):
 
-    def test_get_not_auth(self):
+    def test_permission_message(self):
         """
         GET Not Authenticated User Messages Test
         """
         response = self.client.get(Paths.MESSAGE)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
+    def test_permission_received_message(self):
+        """
+        GET Not Authenticated User received Messages Test
+        """ 
         response = self.client.get(Paths.RECEIVED_MESSAGE)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
+    def test_permission_sent_message(self):
+        """
+        GET Not Authenticated User Sent Messages Test
+        """ 
         response = self.client.get(Paths.SENT_MESSAGE)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
+    def test_permission_chat_message(self):
+        """
+        GET Not Authenticated User chat Messages Test
+        """ 
         response = self.client.get(Paths.CHAT_MESSAGE, {'target': 'target_user'})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        exceptions = ExceptionModel.objects.all()
+        self.assertEqual(exceptions.count(), 1)
+
+    def test_permission_daily_message(self):
+        """
+        GET Not Authenticated User daily Messages Test
+        """ 
         response = self.client.get(Paths.DAILY_MESSAGE, {'date':'2020-01-01'})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         exceptions = ExceptionModel.objects.all()
-        self.assertEqual(exceptions.count(), 5)
+        self.assertEqual(exceptions.count(), 1)
