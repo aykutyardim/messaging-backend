@@ -271,14 +271,14 @@ Content-Type: application/json
     "timestamp": "2020-09-28T02:25:50.958294Z"
 }
 ```
-###### Failed Response
+###### Blocked Case Failed Response
 ```
 HTTP/1.1 400 Bad Request
 Content-Type: application/json
 
 {
-    "non_field_errors": [
-        "Invalid Username"
+    "detail": [
+        "Operation is not allowed."
     ]
 }
 ```
@@ -380,7 +380,7 @@ Content-Type: application/json
 ```
 ###### Failed Response
 ```
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 Content-Type: application/json
 
 {
@@ -530,7 +530,7 @@ Content-Type: application/json
 
 {
     "non_field_errors": [
-        "The fields prevented, blocked must make a unique set."
+        "Invalid Username"
     ]
 }
 ```
@@ -557,7 +557,7 @@ Content-Type: application/json
 
 []
 ```
-###### Failed Response
+###### Not Blocked Before Case Failed Response
 ```
 HTTP/1.1 400 Bad Request
 Content-Type: application/json
