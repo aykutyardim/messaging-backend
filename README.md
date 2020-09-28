@@ -50,7 +50,6 @@ docker-compose up
 ---
 ### Register 
 ```
-
 POST /api/auth/register HTTP/1.1
 ```
 ###### Request
@@ -94,7 +93,6 @@ Content-Type: application/json
 
 ### Login 
 ```
-
 POST /api/auth/login HTTP/1.1
 ```
 ###### Request
@@ -139,7 +137,6 @@ This API uses token-based HTTP Authentication scheme. All requests should includ
 
 ### Get Authenticated User
 ```
-
 GET /api/auth/user HTTP/1.1
 ```
 ###### Request
@@ -170,7 +167,6 @@ Content-Type: application/json
 
 ### Logout User 
 ```
-
 POST /api/auth/logout HTTP/1.1
 ```
 ###### Request
@@ -187,7 +183,6 @@ This API uses token-based HTTP Authentication scheme. All requests should includ
 
 ### Get Message List of Authenticated User 
 ```
-
 GET /api/message HTTP/1.1
 ```
 ###### Request
@@ -237,7 +232,6 @@ Content-Type: application/json
 
 ### Send a New Message 
 ```
-
 POST /api/message HTTP/1.1
 ```
 ###### Request
@@ -286,7 +280,6 @@ Content-Type: application/json
 
 ### Get Sent Message List of Authenticated User 
 ```
-
 GET /api/message/sent HTTP/1.1
 ```
 ###### Request
@@ -323,7 +316,6 @@ Content-Type: application/json
 
 ### Get Received Message List of Authenticated User 
 ```
-
 GET /api/message/received HTTP/1.1
 ```
 ###### Request
@@ -350,7 +342,6 @@ Content-Type: application/json
 ```
 ### Get Chat Messages of Authenticated User with Another User 
 ```
-
 GET /api/message/chat HTTP/1.1
 ```
 ###### Request
@@ -391,7 +382,6 @@ Content-Type: application/json
 ```
 ### Get Daily Message List of Authenticated User
 ```
-
 GET /api/message/daily HTTP/1.1
 ```
 ###### Request
@@ -463,7 +453,6 @@ Content-Type: application/json
 This API uses token-based HTTP Authentication scheme. All requests should include an `Authorization` header that contains authorized user token in form of `Token <TOKEN_VALUE>`. 
 ### Get Blocked User List of Authenticated User 
 ```
-
 GET /api/block HTTP/1.1
 ```
 ###### Request
@@ -491,7 +480,6 @@ Content-Type: application/json
 ### Block a User
 
 ```
-
 POST /api/block HTTP/1.1
 ```
 ###### Request
@@ -537,7 +525,6 @@ Content-Type: application/json
 ### Unblock a User
 
 ```
-
 DELETE /api/block HTTP/1.1
 ```
 ###### Request
@@ -579,7 +566,6 @@ This API must be called by admin users. All requests should include an `Authoriz
 >password: '**123**' 
 ### List All Login Activities 
 ```
-
 GET /api/auth/loginactivity HTTP/1.1
 ```
 ##### Request
@@ -631,7 +617,6 @@ This API must be called by admin users. All requests should include an `Authoriz
 >password: '**123**' 
 ### List All Errors
 ```
-
 GET /api/exception HTTP/1.1
 ```
 ##### Request
