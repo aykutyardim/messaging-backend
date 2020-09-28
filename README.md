@@ -34,11 +34,15 @@ git clone https://github.com/aykutyrdm/messaging-backend.git
 ```
 cd messaging-backend
 ``` 
+###### Test
+```
+docker-compose -f docker-compose.test.yml up
+```
 ###### Build 
 ```
 docker-compose build
 ```
-###### Test & Run 
+###### Run 
 ```
 docker-compose up
 ```
