@@ -10,6 +10,7 @@ class Paths:
     MESSAGE = 'http://localhost:8000/api/message'
     SENT_MESSAGE = 'http://localhost:8000/api/message/sent'
     RECEIVED_MESSAGE = 'http://localhost:8000/api/message/received'
+    CHAT_MESSAGE = 'http://localhost:8000/api/message/chat'
     DAILY_MESSAGE = 'http://localhost8000/api/message/daily'
 
 class MessageTests(APITestCase):
@@ -111,14 +112,14 @@ class ChatTests(APITestCase):
         """
         Successful GET Chat Messages
         """
-        response = self.client.get(Paths.MESSAGE  + '/target_user')
+        response = self.client.get(Paths.CHAT_MESSAGE,{'target': 'target_user'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_chat_messages_invalid_data(self):
         """
         GET Chat Messages with Invalid Query String
         """
-        response = self.client.get(Paths.MESSAGE + '/not_user')
+        response = self.client.get(Paths.CHAT_MESSAGE, {'target': 'not_user'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         exceptions = ExceptionModel.objects.all()
         self.assertEqual(exceptions.count(), 1)
@@ -137,14 +138,14 @@ class DailyMessagesTests(APITestCase):
         """
         Successful GET Daily Messages
         """ 
-        response = self.client.get(Paths.DAILY_MESSAGE + '/2020-09-27')
+        response = self.client.get(Paths.DAILY_MESSAGE , {'date' : '2020-09-27'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_daily_messages_invalid_data(self):
         """
         GET Daily Messages with Invalid Query Date String
         """
-        response = self.client.get(Paths.DAILY_MESSAGE + '/not_date')
+        response = self.client.get(Paths.DAILY_MESSAGE , {'date' : 'not_date'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         exceptions = ExceptionModel.objects.all()
         self.assertEqual(exceptions.count(), 1)
@@ -161,9 +162,9 @@ class PermissionTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         response = self.client.get(Paths.SENT_MESSAGE)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        response = self.client.get(Paths.MESSAGE +'/target')
+        response = self.client.get(Paths.CHAT_MESSAGE, {'target': 'target_user'})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        response = self.client.get(Paths.DAILY_MESSAGE + '/2020-01-01')
+        response = self.client.get(Paths.DAILY_MESSAGE, {'date':'2020-01-01'})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         exceptions = ExceptionModel.objects.all()
         self.assertEqual(exceptions.count(), 5)

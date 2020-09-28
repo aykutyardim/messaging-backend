@@ -10,7 +10,7 @@ class Paths:
 
     REGISTER = 'http://localhost:8000/api/auth/register'
     LOGIN = 'http://localhost:8000/api/auth/login'
-    BLOCK = 'http://localhost:8000/api/auth/block'
+    BLOCK = 'http://localhost:8000/api/block'
     USER = 'http://localhost:8000/api/auth/user'
     LOGINACTIVITY ='http://localhost:8000/api/auth/loginactivity'
 

@@ -29,14 +29,19 @@ class MessageAPI(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
 
         # Get user messages 
-        user = request.user
-        messages = Message.objects.filter(Q(author=user) | Q(target=user)).order_by('timestamp')
+        user = request.user.id
+        sent = Message.objects.filter(author=user).order_by('timestamp')
+        received = Message.objects.filter(target=user).order_by('timestamp')
         
         # Serialize user messages
-        serializer = self.get_serializer(messages,many=True)
+        sent_serializer = SentMessageSerializer(sent,many=True)
+        received_serializer = ReceivedMessageSerializer(received,many=True)
         
         # Return serialized messages
-        return Response(serializer.data)
+        return Response({
+            'sent' : sent_serializer.data,
+            'received' : received_serializer.data
+        })
 
     def post(self, request, *args, **kwargs):
         
@@ -103,7 +108,12 @@ class ChatAPI(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ChatSerializer
 
-    def get(self, request, target, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        
+        # Get target
+        target = request.query_params.get('target','')
+        if not target:
+            raise TargetException()
         
         # Validate target data
         target_serializer = UserValidateSerializer(data={'username' : target})
@@ -133,14 +143,19 @@ class DailyMessageAPI(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = MessageSerializer
 
-    def get(self, request, date_str, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+
+        # Get target
+        date_str = request.query_params.get('date','')
 
         # Get request data        
         uid = request.user.id
-        date = parse_date(date_str)
-        
-        # Check params
-        if date is None:
+
+        try:
+            date = parse_date(date_str)
+            if date is None:
+                raise DateException()
+        except:
             raise DateException()
 
         #Get Daily Messages 
