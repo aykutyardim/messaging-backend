@@ -4,7 +4,7 @@
 
 ## Features 
 ---
-* Users can 
+* Users can register and login to system.
 
 * One users can send a message to other with username.
 
