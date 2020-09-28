@@ -4,7 +4,7 @@
 
 ## Features 
 ---
-* Users can create accounts and login in the system.
+* Users can 
 
 * One users can send a message to other with username.
 
@@ -560,7 +560,7 @@ Content-Type: application/json
 ---
 This API must be called by admin users. All requests should include an `Authorization` header that contains authorized **SUPER** user token in form of `Token <TOKEN_VALUE>`.
 
-*The credentials of initial super user created at compile time can be authenticated for token object.* 
+*The credentials of initial super user 
 
 > username: '**admin**'
 >password: '**123**' 
@@ -611,7 +611,7 @@ Content-Type: application/json
 ---
 This API must be called by admin users. All requests should include an `Authorization` header that contains authorized **SUPER** user token in form of `Token <TOKEN_VALUE>`.
 
-*The credentials of initial super user created at compile time can be authenticated for token object.* 
+*The credentials of initial super user 
 
 > username: '**admin**'
 >password: '**123**' 
@@ -745,9 +745,7 @@ Login Tests with Missing Data
 ###### Block Tests
 
 
-```
-Create user objects for Blocking tests
-```
+
 
 
 
@@ -863,9 +861,7 @@ Delete Block Test with Missing Blocked Field
 ###### User Tests
 
 
-```
-Create user objects for User tests
-```
+
 
 
 
@@ -900,9 +896,7 @@ Forbidden GET Login Activities List Test (only admin users)
 ###### Message Tests
 
 
-```
-Create user object for Sent Messages tests
-```
+
 
 
 
@@ -969,9 +963,7 @@ POST Message Test with Missing Data
 ###### SentMessages Tests
 
 
-```
-Create user object for Sent Messages tests
-```
+
 
 
 
@@ -985,9 +977,7 @@ Successful GET Sent Message List Test
 ###### ReceivedMessages Tests
 
 
-```
-Create user object for Received Messages tests
-```
+
 
 
 
@@ -1001,9 +991,7 @@ Successful GET Received Message List Test
 ###### Chat Tests
 
 
-```
-Create user objects for Chat Messages Tests
-```
+
 
 
 
@@ -1036,9 +1024,7 @@ GET Chat Messages with Missing Query String
 ###### DailyMessages Tests
 
 
-```
-Create user objects for Daily Messages Tests
-```
+
 
 
 
